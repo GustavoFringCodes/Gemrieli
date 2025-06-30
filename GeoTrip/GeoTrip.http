@@ -1,0 +1,6 @@
+@GeoTrip_HostAddress = http://localhost:5227
+
+GET {{GeoTrip_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
