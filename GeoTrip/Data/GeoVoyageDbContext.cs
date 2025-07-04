@@ -1,15 +1,16 @@
 ﻿using GeoTrip.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
-
 namespace GeoTrip.Data
+
 {
-    public class DishContext : DbContext
+    public class GeoVoyageDbContext : DbContext
     {
-        public DishContext(DbContextOptions<DishContext> options) : base(options)
+        public GeoVoyageDbContext(DbContextOptions<GeoVoyageDbContext> options) : base(options)
         {
         }
         public DbSet<Dish> Dishes { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,16 @@ namespace GeoTrip.Data
 
                 entity.Property(e => e.ImageUrl)
                   .HasMaxLength(8000);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+
+                entity.Property(t => t.Id).ValueGeneratedOnAdd();
+                entity.Property(t => t.Name).HasMaxLength(100).IsRequired();
+                entity.Property(t => t.Description).HasMaxLength(1000).IsRequired();
+                entity.Property(t => t.Image).HasMaxLength(8000);
             });
         }
     }

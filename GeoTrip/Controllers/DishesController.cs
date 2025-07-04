@@ -11,9 +11,9 @@ namespace GeoTrip.Controllers
     [ApiController]
     public class DishesController : ControllerBase
     {
-        private readonly DishContext _context;
+        private readonly GeoVoyageDbContext _context;
 
-        public DishesController(DishContext context)
+        public DishesController(GeoVoyageDbContext context)
         {
             _context = context;
         }
