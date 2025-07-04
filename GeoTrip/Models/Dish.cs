@@ -1,4 +1,6 @@
-﻿namespace GeoTrip.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GeoTrip.Models
 {
     public class Dish
     {
@@ -8,5 +10,11 @@
         public string Description { get; set; }
         public string Category { get; set; }
         public string ImageUrl { get; set; }
+
+        [MaxLength(20)]
+        public string? Difficulty { get; set; }
+        public decimal? Rating { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public virtual Recipe? Recipe { get; set; }
     }
 }
