@@ -11,6 +11,7 @@ namespace GeoTrip.Data
         }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Place> Places { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +48,16 @@ namespace GeoTrip.Data
                 entity.Property(t => t.Name).HasMaxLength(100).IsRequired();
                 entity.Property(t => t.Description).HasMaxLength(1000).IsRequired();
                 entity.Property(t => t.Image).HasMaxLength(8000);
+            });
+
+            modelBuilder.Entity<Place>(entity =>
+            {
+                entity.HasKey(f => f.Id);
+
+                entity.Property(f => f.Id).ValueGeneratedOnAdd();
+                entity.Property(f => f.Name).HasMaxLength(200).IsRequired();
+                entity.Property(f => f.Description).HasMaxLength(5000).IsRequired();
+                entity.Property(f => f.ImageUrl).HasMaxLength(8000);
             });
         }
     }

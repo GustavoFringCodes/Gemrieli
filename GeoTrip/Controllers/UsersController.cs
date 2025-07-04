@@ -35,7 +35,7 @@ namespace GeoTrip.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Dish>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace GeoTrip.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Dish>> CreateUser(User user)
+        public async Task<ActionResult<User>> CreateUser(User user)
         {
             try
             {
