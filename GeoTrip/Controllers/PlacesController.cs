@@ -11,19 +11,20 @@ namespace GeoTrip.Controllers
     [ApiController]
     public class PlacesController : ControllerBase
     {
-        private readonly GeoVoyageDbContext _contextt;
+        private readonly GeoVoyageDbContext _context;
 
         public PlacesController(GeoVoyageDbContext context)
         {
-            _contextt = context;
+            _context = context;
         }
+
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Place>>> GetPlaces()
         {
             try
             {
-                var places = await _contextt.Places
+                var places = await _context.Places
                     .OrderBy(p => p.Name)
                     .ToListAsync();
                 return Ok(places);
@@ -39,7 +40,7 @@ namespace GeoTrip.Controllers
         {
             try
             {
-                var places = await _contextt.Places.FindAsync(id);
+                var places = await _context.Places.FindAsync(id);
 
                 if (places == null)
                 {
@@ -64,8 +65,8 @@ namespace GeoTrip.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _contextt.Places.Add(place);
-                await _contextt.SaveChangesAsync();
+                _context.Places.Add(place);
+                await _context.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetPlace), new { id = place.Id }, place);
             }
@@ -90,8 +91,8 @@ namespace GeoTrip.Controllers
 
             try
             {
-                _contextt.Entry(place).State = EntityState.Modified;
-                await _contextt.SaveChangesAsync();
+                _context.Entry(place).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
                 return Ok(place);
             }
             catch (DbUpdateConcurrencyException)
@@ -116,14 +117,14 @@ namespace GeoTrip.Controllers
         {
             try
             {
-                var place = await _contextt.Places.FindAsync(id);
+                var place = await _context.Places.FindAsync(id);
                 if (place == null)
                 {
                     return NotFound($"Place with ID {id} not found.");
                 }
 
-                _contextt.Places.Remove(place);
-                await _contextt.SaveChangesAsync();
+                _context.Places.Remove(place);
+                await _context.SaveChangesAsync();
 
                 return Ok($"Place '{place.Name}' deleted successfully.");
             }
@@ -135,7 +136,7 @@ namespace GeoTrip.Controllers
 
         private bool PlaceExists(int id)
         {
-            return _contextt.Places.Any(t => t.Id == id);
+            return _context.Places.Any(t => t.Id == id);
         }
     }
 }

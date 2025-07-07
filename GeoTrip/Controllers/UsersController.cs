@@ -11,11 +11,11 @@ namespace GeoTrip.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly GeoVoyageDbContext _contextt;
+        private readonly GeoVoyageDbContext _context;
 
         public UsersController(GeoVoyageDbContext context)
         {
-            _contextt = context;
+            _context = context;
         }
 
         [HttpGet]
@@ -23,7 +23,7 @@ namespace GeoTrip.Controllers
         {
             try
             {
-                var users = await _contextt.Users
+                var users = await _context.Users
                     .OrderBy(p => p.Name)
                     .ToListAsync();
                 return Ok(users);
@@ -39,7 +39,7 @@ namespace GeoTrip.Controllers
         {
             try
             {
-                var users = await _contextt.Users.FindAsync(id);
+                var users = await _context.Users.FindAsync(id);
 
                 if (users == null)
                 {
@@ -64,8 +64,8 @@ namespace GeoTrip.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _contextt.Users.Add(user);
-                await _contextt.SaveChangesAsync();
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
             }
@@ -90,8 +90,8 @@ namespace GeoTrip.Controllers
 
             try
             {
-                _contextt.Entry(user).State = EntityState.Modified;
-                await _contextt.SaveChangesAsync();
+                _context.Entry(user).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
                 return Ok(user);
             }
             catch (DbUpdateConcurrencyException)
@@ -116,14 +116,14 @@ namespace GeoTrip.Controllers
         {
             try
             {
-                var user = await _contextt.Users.FindAsync(id);
+                var user = await _context.Users.FindAsync(id);
                 if (user == null)
                 {
                     return NotFound($"User with ID {id} not found.");
                 }
 
-                _contextt.Users.Remove(user);
-                await _contextt.SaveChangesAsync();
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
 
                 return Ok($"User '{user.Name}' deleted successfully.");
             }
@@ -135,7 +135,7 @@ namespace GeoTrip.Controllers
 
         private bool UserExists(int id)
         {
-            return _contextt.Users.Any(t => t.Id == id);
+            return _context.Users.Any(t => t.Id == id);
         }
     }
 }
